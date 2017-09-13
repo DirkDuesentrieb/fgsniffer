@@ -2,15 +2,15 @@
 Convert Fortigates "diagnose sniffer" output to pcap files  
 
 ## The scope
-Some FortiGate Models like the FG100E don't have a disk, so cou can't use the WebUIs "Packet Capture" menu to create pcap files. The workaround is to use the CLI and create a verbose output and convert this with a Perl script. That didn't work for me so I created this tool. The small binary converts session logs to pcap files that can be opened with wireshark.
+Some FortiGate Models like the FG100E don't have a disk, so you can't use the WebUIs "Packet Capture" menu to create pcap files. The workaround is to use the CLI and create a verbose output and convert this with a Perl script. The Perl stuff didn't work for me so I created this tool. A compiled small binary converts session logs to pcap files that can be opened with wireshark.
 
 ## How to create a pcap
 ### 1 Create a log file
 It depends on your ssh client how logs are created. 
 #### Linux/openssh
-Linux `tee` saves you step 3 and redirects the openssh output directly to the tool. I assume your fgsniffer binary lies in your current path.
+Linux `tee` saves you step 3 and redirects the openssh output directly to the tool. I assume your fgsniffer binary lies in your current path. 10.10.10.1 is of course a placeholder for your firewall.
 ```
-ssh admin@10.10.10.1 | tee >(./fgsniffer)
+~ $ ssh 10.10.10.1 | tee >(./fgsniffer)
 ```
 #### Windows/Putty
 In the settings look for Session/Logging. Check "Printable Output" and click "Browse" to save the putty.log to somewhere you find it.
@@ -53,7 +53,7 @@ created output file fgsniffer.pcap
 You find one ore more pcap files in your current path.
 
 ## The verbosity level
-If you need to follow a packet through the box you can use level '6' and the interface 'any'. fgsniffer will create a file for every interface so you don't loose this information.
+If you limit your filter to one interface level '3' is fine. But if you need to follow a packet through the box you can use level '6' and the interface 'any'. fgsniffer will create a file for every interface so you don't loose this information. I recommend using '6' all of the time. 
 
 ## Compiling fgsniffer
 If you haven't used GO before, please read https://golang.org/doc/install and set up the required GOPATH and GOBIN environment.
