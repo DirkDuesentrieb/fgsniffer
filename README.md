@@ -39,6 +39,7 @@ filters=[icmp]
 2017-09-12 12:41:38.676846 inside in 10.134.190.2 -> 10.134.190.30: icmp: echo request
 0x0000   0000 0000 0001 0023 e93e 7a38 0800 4500        .......#.>z8..E.
 0x0010   0028 0000 4000 ff01 eaa7 0a86 be02 0a86        .(..@...........
+ [cut]
 ```
 
 
@@ -52,4 +53,18 @@ created output file fgsniffer.pcap
 You find one ore more pcap files in your current path.
 
 ## The verbosity level
-If you need to follow a packet through the box you can use level '6' and the interface 'any'. fgsniffer will create a file for every interface so you don't loose this information. 
+If you need to follow a packet through the box you can use level '6' and the interface 'any'. fgsniffer will create a file for every interface so you don't loose this information.
+
+## Compiling fgsniffer
+If you haven't used GO before, please read https://golang.org/doc/install and set up the required GOPATH and GOBIN environment.
+### Linux
+```
+go get github.com/DirkDuesentrieb/fgsniffer
+go install $GOPATH/src/github.com/DirkDuesentrieb/fgsniffer/fgsniffer.go
+```
+### Windows (PowerShell)
+```
+go get github.com/DirkDuesentrieb/fgsniffer
+go install $Env:GOPATH\src\github.com\DirkDuesentrieb\fgsniffer\fgsniffer.go
+```
+If your GOBIN is part of your global PATH you can run fgsniffer from anywhere in your filesystem.
