@@ -55,6 +55,9 @@ You find one ore more pcap files in your current path.
 ## The verbosity level
 If you limit your filter to one interface level '3' is fine. But if you need to follow a packet through the box you can use level '6' and the interface 'any'. fgsniffer will create a file for every interface so you don't loose this information. I recommend using '6' all of the time. 
 
+## Installing fgsniffer
+The tool is one statically linked binary. Installing is as simple as [download](https://github.com/DirkDuesentrieb/fgsniffer/releases), unzip and run.
+
 ## Compiling fgsniffer
 If you haven't used GO before, please read https://golang.org/doc/install and set up the required GOPATH and GOBIN environment.
 ### Linux
