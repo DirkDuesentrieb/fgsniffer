@@ -20,7 +20,7 @@ const (
 	globalHeader string = "d4c3b2a1020004000000000000000000ee05000001000000"
 	hexl         string = "^0x([0-9a-f]+)[ |\t]+(.*$)"
 	headl3       string = "^([0-9-]+ [0-9][0-9]:[0-9][0-9]:[0-9][0-9])\\.([0-9]+) [0-9a-f.:]+ -> [0-9a-f.:]+: .*$"
-	headl6       string = "^([0-9-]+ [0-9][0-9]:[0-9][0-9]:[0-9][0-9])\\.([0-9]+) ([^ ]+) (in|out) [0-9a-f.:]+ -> [0-9a-f.:]+: .*$"
+	headl6       string = "^([0-9-]+ [0-9][0-9]:[0-9][0-9]:[0-9][0-9])\\.([0-9]+) ([^ ]+) (in|out|--) .*$"
 	info         string = "\nfgsniffer\n\nConvert text captures to pcap files. On the fortigate use\n\tdiagnose sniffer packet <interface> '<filter>' <3|6> <count> a\nto create a parsable dump.\n\n"
 	unsafe       string = "[]{}/\\*"
 )
