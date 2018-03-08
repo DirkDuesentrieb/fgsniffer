@@ -41,7 +41,7 @@ func main() {
 	var scanner *bufio.Scanner
 	var p packet
 	if len(os.Args) == 2 {
-		if os.Args[1] == "-?" {
+		if os.Args[1] == "-?"  || os.Args[1] == "-h" {
 			fmt.Println(info)
 			os.Exit(0)
 		} else {
