@@ -52,6 +52,9 @@ created output file fgsniffer.pcap
 ### 4 Open with wireshark
 You find one ore more pcap files in your current path.
 
+## The timestamp
+It is a good idea to always add "a" to the sniffer options to have a proper time for your pcaps. Users who had forgotten this option where confused, why this tool isn't working for them. In the current version fgsniffer will accept relative times. The time shown in the pcap will be the current local time plus the deltas.  
+
 ## The verbosity level
 If you limit your filter to one interface level '3' is fine. But if you need to follow a packet through the box you can use level '6' and the interface 'any'. fgsniffer will create a file for every interface so you don't loose this information. I recommend using '6' all of the time. 
 
