@@ -18,9 +18,6 @@ import (
 
 const (
 	globalHeader string = "d4c3b2a1020004000000000000000000ee05000001000000"
-	hexl         string = "^0x([0-9a-f]+)[ |\t]+(.*$)"
-	headl3       string = "^([0-9-]+ [0-9][0-9]:[0-9][0-9]:[0-9][0-9])\\.([0-9]+) [0-9a-f.:]+ -> [0-9a-f.:]+: .*$"
-	headl6       string = "^([0-9-]+ [0-9][0-9]:[0-9][0-9]:[0-9][0-9])\\.([0-9]+) ([^ ]+) (in|out|--) .*$"
 	info         string = "\nfgsniffer\n\nConvert text captures to pcap files. On the fortigate use\n\tdiagnose sniffer packet <interface> '<filter>' <3|6> <count> a\nto create a parsable dump.\n\n"
 	unsafe       string = "[]{}/\\*"
 )
@@ -40,8 +37,10 @@ type (
 func main() {
 	var scanner *bufio.Scanner
 	var p packet
+	now := time.Now()
+
 	if len(os.Args) == 2 {
-		if os.Args[1] == "-?"  || os.Args[1] == "-h" {
+		if os.Args[1] == "-?" || os.Args[1] == "-h" {
 			fmt.Println(info)
 			os.Exit(0)
 		} else {
@@ -55,26 +54,50 @@ func main() {
 	} else {
 		scanner = bufio.NewScanner(os.Stdin)
 	}
-	hexLine := regexp.MustCompile(hexl)
-	headLine3 := regexp.MustCompile(headl3)
-	headLine6 := regexp.MustCompile(headl6)
+	hexLine := regexp.MustCompile("^0x([0-9a-f]+)[ |\t]+(.*$)")
+	// absolute time
+	headLineA := regexp.MustCompile("^([0-9-]+ [0-9][0-9]:[0-9][0-9]:[0-9][0-9])\\.([0-9]+) .*$")
+	// relative time
+	headLineR := regexp.MustCompile("^([0-9]+)\\.([0-9]+) .*$")
+	// verbose mode 6
+	headLine6 := regexp.MustCompile("\\.[0-9]+ ([^ ]+) (in|out|--) ")
 
 	pcps := pcaps{make(map[string]int)}
 
 	for scanner.Scan() {
+		date := ""
+		mseconds := ""
+		iface := ""
+		match := false
 		line := scanner.Text()
 		hexData := hexLine.FindStringSubmatch(line)
-		headData3 := headLine3.FindStringSubmatch(line)
-		headData6 := headLine6.FindStringSubmatch(line)
 
-		// packet header with verbose level 3 or 6
-		if len(headData3) == 3 {
-			pcps.addPacket(p)
-			p = newPacket(headData3[1], headData3[2], "")
+		// packet header with absolute time
+		header := headLineA.FindStringSubmatch(line)
+		if len(header) == 3 {
+			match = true
+			date = header[1]
+			mseconds = header[2]
 		}
-		if len(headData6) == 5 {
+		// packet header with relative time
+		header = headLineR.FindStringSubmatch(line)
+		if len(header) == 3 {
+			match = true
+			sec, err := time.ParseDuration(header[1] + "s")
+			if err != nil {
+				fmt.Println("time.ParseDuration("+header[1]+")", err)
+			}
+			date = now.Add(sec).In(time.UTC).Format("2006-01-02 15:04:05")
+			mseconds = header[2]
+		}
+		// verbose mode 6
+		header = headLine6.FindStringSubmatch(line)
+		if match && len(header) == 3 {
+			iface = header[1]
+		}
+		if match {
 			pcps.addPacket(p)
-			p = newPacket(headData6[1], headData6[2], headData6[3])
+			p = newPacket(date, mseconds, iface)
 		}
 
 		// packet hex data
