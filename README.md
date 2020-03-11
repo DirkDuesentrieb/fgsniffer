@@ -12,6 +12,8 @@ Linux `tee` saves you step 3 and redirects the openssh output directly to the to
 ```
 ~ $ ssh 10.10.10.1 | tee >(./fgsniffer)
 ```
+#### Linux/screen
+`screen` has [a **log** command](https://www.gnu.org/software/screen/manual/html_node/Log.html) with the shortcut `Ctrl-a H`. The console output is saved into a file screenlog.X. Press `Ctrl-a H` again to stop logging.
 #### Windows/Putty
 In the settings look for Session/Logging. Check "Printable Output" and click "Browse" to save the putty.log to somewhere you find it.
 Now connect to your firewall.
@@ -74,3 +76,11 @@ go get github.com/DirkDuesentrieb/fgsniffer
 go install $Env:GOPATH\src\github.com\DirkDuesentrieb\fgsniffer\fgsniffer.go
 ```
 If your GOBIN is part of your global PATH you can run fgsniffer from anywhere in your filesystem.
+
+## Review in 2020
+fgsniffer still works with the latest firmware versions (currently 6.2), but the newer firmware versions have the feature to create pcaps directly via the GUI. That makes simple network debuggung much easier. 
+
+Using fgsniffer is still necessary if you want to
+- use an advanced capture filter (eg with `and` or `not`)
+- capture more than 10000 packets
+- capture on all interfaces
