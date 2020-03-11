@@ -44,13 +44,13 @@ filters=[icmp]
  [cut]
 ```
 
-
-### 3 Convert the output (Windows only)
-Go to the folder where you saved your session log. I assume your fgsniffer.exe lies here too.
+### 3 Convert the output 
+Go to the folder where you saved your session log. I assume fgsniffer lies here too.
 ```
-PS C:\Users\dirk\temp> fgsniffer putty.log
+fgsniffer putty.log
 created output file fgsniffer.pcap
 ```
+
 ### 4 Open with wireshark
 You find one ore more pcap files in your current path.
 
