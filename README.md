@@ -77,6 +77,9 @@ go install $Env:GOPATH\src\github.com\DirkDuesentrieb\fgsniffer\fgsniffer.go
 ```
 If your GOBIN is part of your global PATH you can run fgsniffer from anywhere in your filesystem.
 
+### Fixing broken VPN captures
+In some FortiOS versions captures on a VPN interface can not be parsed. The reason is a missing Ethernet-header. `fgsniffer` now has an option **-fixvpn** to create a dummy header.
+
 ## Review in 2020
 fgsniffer still works with the latest firmware versions (currently 6.2), but the newer firmware versions have the feature to create pcaps directly via the GUI. That makes simple network debuggung much easier. 
 
