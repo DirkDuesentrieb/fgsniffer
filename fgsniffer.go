@@ -18,9 +18,12 @@ import (
 
 const (
 	globalHeader string = "d4c3b2a1020004000000000000000000ee05000001000000"
-	info         string = `\nfgsniffer [fixvpn]\n\nConvert text captures to pcap files. 
-	On the fortigate use\n\tdiagnose sniffer packet <interface> '<filter>' <3|6> <count> a\nto create a parsable dump.
-	fixvpn adds virtual MAC addresses.\n`
+	info         string = `fgsniffer [-fixvpn]
+	Convert text captures to pcap files. 
+	On the fortigate run
+	   diagnose sniffer packet <interface> '<filter>' <3|6> <count> a
+	to create a parsable dump.
+	 -fixvpn    adds virtual MAC addresses to avoid unparsable dumps on VPN/tunnel interfaces.`
 	unsafe string = "[]{}/\\*"
 )
 
