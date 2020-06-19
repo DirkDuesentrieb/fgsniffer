@@ -18,8 +18,10 @@ import (
 
 const (
 	globalHeader string = "d4c3b2a1020004000000000000000000ee05000001000000"
-	info         string = "\nfgsniffer\n\nConvert text captures to pcap files. On the fortigate use\n\tdiagnose sniffer packet <interface> '<filter>' <3|6> <count> a\nto create a parsable dump.\n\n"
-	unsafe       string = "[]{}/\\*"
+	info         string = `\nfgsniffer [fixvpn]\n\nConvert text captures to pcap files. 
+	On the fortigate use\n\tdiagnose sniffer packet <interface> '<filter>' <3|6> <count> a\nto create a parsable dump.
+	fixvpn adds virtual MAC addresses.\n`
+	unsafe string = "[]{}/\\*"
 )
 
 type (
@@ -34,17 +36,25 @@ type (
 	}
 )
 
+var fixvpn bool
+
 func main() {
 	var scanner *bufio.Scanner
 	var p packet
 	now := time.Now()
+	fname := os.Args[1]
+	if len(os.Args) > 1 {
 
-	if len(os.Args) == 2 {
-		if os.Args[1] == "-?" || os.Args[1] == "-h" {
+		switch os.Args[1] {
+		case "-?", "-h":
 			fmt.Println(info)
 			os.Exit(0)
-		} else {
-			f, err := os.Open(os.Args[1])
+		case "fixvpn":
+			fixvpn = true
+			fname = os.Args[2]
+			fallthrough
+		default:
+			f, err := os.Open(fname)
 			if err != nil {
 				fmt.Fprintln(os.Stderr, err)
 				os.Exit(1)
@@ -98,6 +108,9 @@ func main() {
 		if match {
 			pcps.addPacket(p)
 			p = newPacket(date, mseconds, iface)
+			if fixvpn {
+				p.addData("00090f09010100090f0902020800")
+			}
 		}
 
 		// packet hex data
