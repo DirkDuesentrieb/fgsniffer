@@ -49,7 +49,7 @@ func main() {
 		case "-?", "-h":
 			fmt.Println(info)
 			os.Exit(0)
-		case "fixvpn":
+		case "-fixvpn":
 			fixvpn = true
 			fname = os.Args[2]
 			fallthrough
