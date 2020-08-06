@@ -52,7 +52,7 @@ created output file fgsniffer.pcap
 ```
 
 ### 4 Open with wireshark
-You find one ore more pcap files in your current path.
+You find one or more pcap files in your current path.
 
 ## The timestamp
 It is a good idea to always add "a" to the sniffer options to have a proper time for your pcaps. Users who had forgotten this option where confused, why this tool isn't working for them. In the current version fgsniffer will accept relative times. The time shown in the pcap will be the current local time plus the deltas.  
@@ -68,12 +68,12 @@ If you haven't used GO before, please read https://golang.org/doc/install and se
 ### Linux
 ```
 go get github.com/DirkDuesentrieb/fgsniffer
-go install $GOPATH/src/github.com/DirkDuesentrieb/fgsniffer/fgsniffer.go
+go install $GOPATH/src/github.com/DirkDuesentrieb/fgsniffer/main.go
 ```
 ### Windows (PowerShell)
 ```
 go get github.com/DirkDuesentrieb/fgsniffer
-go install $Env:GOPATH\src\github.com\DirkDuesentrieb\fgsniffer\fgsniffer.go
+go install $Env:GOPATH\src\github.com\DirkDuesentrieb\fgsniffer\main.go
 ```
 If your GOBIN is part of your global PATH you can run fgsniffer from anywhere in your filesystem.
 
@@ -81,7 +81,7 @@ If your GOBIN is part of your global PATH you can run fgsniffer from anywhere in
 In some FortiOS versions captures on a VPN interface can not be parsed. The reason is a missing Ethernet-header. `fgsniffer` now has an option **-fixvpn** to create a dummy header.
 
 ## Review in 2020
-fgsniffer still works with the latest firmware versions (currently 6.2), but the newer firmware versions have the feature to create pcaps directly via the GUI. That makes simple network debuggung much easier. 
+fgsniffer still works with the latest firmware versions (currently 6.4), but the newer firmware versions have the feature to create pcaps directly via the GUI. That makes simple network debugging much easier. 
 
 Using fgsniffer is still necessary if you want to
 - use an advanced capture filter (eg with `and` or `not`)
